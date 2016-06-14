@@ -13,14 +13,25 @@ import com.orhanobut.logger.Logger;
  */
 public class AppContext extends Application {
 
+    private static AppContext mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
+        initComponents();
+    }
+
+    private void initComponents() {
+        // 初始化日志组件
         Logger.init("AndroidTips")
                 .methodCount(3)
                 .hideThreadInfo()
                 .logLevel(LogLevel.FULL)
                 .methodOffset(5);
-
     }
+
+    public static AppContext getInstance() {
+        return mInstance;
+    }
+
 }

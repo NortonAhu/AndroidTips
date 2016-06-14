@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">AndroidTips</string>
+    <string-array name="main_item">
+        <item>UI</item>
+        <item>DATABASE</item>
+        <item>HTTP</item>
+        <item>ALGORITHM</item>
+        <item>RXJAVA</item>
+        <item>ETC</item>
+    </string-array>
+    <string name="app_name_ch">Android小技巧</string>
+    <string name="title_activity_pop_window">PopWindowActivity</string>
 </resources>
