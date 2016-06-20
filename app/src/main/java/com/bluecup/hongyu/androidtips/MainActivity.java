@@ -1,32 +1,39 @@
 package com.bluecup.hongyu.androidtips;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bluecup.hongyu.androidtips.adapter.NormalAdapter;
+import com.bluecup.hongyu.androidtips.ui.ContainerActivity;
 import com.bluecup.hongyu.androidtips.ui.activity.BaseActivity;
-
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
+
+    RecyclerView mTipsRecycle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        
-        initTitle();
+
+        initTitle(getResources().getString(R.string.app_name_ch), false);
+        initView();
 //        tintTestByCode(img4);
 //        Logger.d("test");
 //        selectTint(img5);
     }
 
-    private void initTitle() {
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name_ch));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    private void initView() {
+        mTipsRecycle = (RecyclerView) findViewById(R.id.recycle_items);
+        mTipsRecycle.setLayoutManager(new GridLayoutManager(this, 2));
+        mTipsRecycle.setAdapter(new NormalAdapter(this));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,6 +46,9 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.action_setting) {
             return true;
+        } else if (id == R.id.action_testing){
+            Intent intent = new Intent(MainActivity.this, ContainerActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -9,5 +9,9 @@
         <item>ETC</item>
     </string-array>
     <string name="app_name_ch">Android小技巧</string>
+    <string name="fragment_activity_title">Fragment 学习</string>
     <string name="title_activity_pop_window">PopWindowActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank A fragment</string>
 </resources>

@@ -13,9 +13,6 @@ import android.widget.RelativeLayout;
 
 import com.bluecup.hongyu.androidtips.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Des:
  * Created by hongyu
@@ -23,17 +20,13 @@ import butterknife.ButterKnife;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    @BindView(R.id.tool_bar)
     Toolbar mToolBar;
-    @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_main);
-        ButterKnife.bind(this);
-        // 经测试在代码里直接声明透明状态栏更有效
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
@@ -41,7 +34,15 @@ public class BaseActivity extends AppCompatActivity {
         initToolbar();
     }
 
+    protected void initTitle(String title, boolean isShowBack) {
+        getSupportActionBar().setTitle(title);
+        // 4.0 以下默认是true 4.0 以上默认是false 左上角的返回角标
+        getSupportActionBar().setDisplayHomeAsUpEnabled(isShowBack);
+    }
+
     private void initToolbar() {
+        mToolBar = (Toolbar) findViewById(R.id.tool_bar);
+        rootLayout = (RelativeLayout) findViewById(R.id.root_layout);
         if (mToolBar != null) {
             setSupportActionBar(mToolBar);
         }
@@ -55,7 +56,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(View view) {
         if (rootLayout == null) return;
-        setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.BELOW, R.id.tool_bar);
+        setContentView(view, lp);
     }
 
     @Override

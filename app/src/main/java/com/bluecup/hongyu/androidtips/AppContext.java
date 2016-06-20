@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 public class AppContext extends Application {
 
     private static AppContext mInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,13 +26,17 @@ public class AppContext extends Application {
         // 初始化日志组件
         Logger.init("AndroidTips")
                 .methodCount(3)
-                .hideThreadInfo()
                 .logLevel(LogLevel.FULL)
+                .hideThreadInfo()
                 .methodOffset(5);
     }
 
     public static AppContext getInstance() {
         return mInstance;
+    }
+
+    public static String getResStr(int strId) {
+        return mInstance.getResources().getString(strId);
     }
 
 }
