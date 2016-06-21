@@ -1,6 +1,7 @@
 package com.bluecup.hongyu.androidtips.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -32,6 +33,8 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
 
+    private Fragment mCurrentFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +62,29 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
         } else if (id == R.id.action_go_next) {
             replaceFragemnt();
             return true;
+        } else if (id == R.id.action_switch_fragment) {
+            initComponent();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initComponent() {
+        if (mCurrentFragment instanceof AFragment) {
+            switchContent(BFragment.newInstance("add B Fragment", ""));
+        } else {
+            switchContent(AFragment.newInstance("add Fragment", ""));
+        }
+    }
+
+    private void switchContent(Fragment fragment) {
+        if (mCurrentFragment != fragment) {
+            mCurrentFragment = fragment;
+            mTransaction = mFragmentManager.beginTransaction();
+            mTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            mTransaction.addToBackStack(null).replace(R.id.fragment_container, fragment).commit();
+
+        }
+
     }
 
     private void initFragmentManager() {
@@ -69,17 +93,25 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
             @Override
             public void onBackStackChanged() {
                 // 打开一个新的Fragement 返回上一个也会 直到最后一个
-                Logger.t("container").d("onBackStackChanged");
+                Logger.t("container").d("onBackStackChanged manager size = " + mFragmentManager.getBackStackEntryCount());
             }
         });
         mTransaction = mFragmentManager.beginTransaction();
     }
 
     protected void addFragment() {
-        AFragment aFragment = AFragment.newInstance("add Fragment", "");
+        // Activity因为配置发生改变（屏幕旋转）或者内存不足被系统杀死，造成重新创建时，我们的fragment会被保存下来，
+        // 但是会创建新的FragmentManager，新的FragmentManager会首先会去获取保存下来的fragment队列，重建fragment队列，
+        // 从而恢复之前的状态。
+        if (mFragmentManager.findFragmentById(R.id.fragment_container) != null) {
+            return;
+        }
+//        ListTitleFragment aFragment = ListTitleFragment.newInstance(0);
+        AFragment aFragment = AFragment.newInstance("add A Fragment", "");
         mTransaction.add(R.id.fragment_container, aFragment);
         // 这里是第一个 Fragment 不需要使用后退栈不然会出现一个空白的界面
 //        mTransaction.addToBackStack(null);
+        mCurrentFragment = aFragment;
         mTransaction.commit();
     }
 
@@ -93,10 +125,15 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
      */
     public void replaceFragemnt() {
         BFragment bFragment = BFragment.newInstance("add B Fragment", "");
+        switchContent(bFragment);
+    }
+
+    /**
+     * 这种方法还是不要用了
+     */
+    public void hideFragment() {
         mTransaction = mFragmentManager.beginTransaction();
-        mTransaction.replace(R.id.fragment_container, bFragment);
-        mTransaction.addToBackStack(null);
-        mTransaction.commit();
+        mTransaction.hide(mFragmentManager.findFragmentById(R.id.fragment_container));
     }
 
     @Override

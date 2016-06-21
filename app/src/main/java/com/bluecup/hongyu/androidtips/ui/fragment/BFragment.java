@@ -7,13 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bluecup.hongyu.androidtips.R;
+import com.bluecup.hongyu.androidtips.ui.ContainerActivity;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -29,11 +32,13 @@ public class BFragment extends Fragment {
     private static final String TAG_TITLE = "title";
     @BindView(R.id.txt_des)
     TextView txtDes;
+    @BindView(R.id.btn_hide)
+    Button btnHide;
     private String mContent;
     private String mTitle;
 
     public static BFragment newInstance(String content, String title) {
-        Logger.t(TAG, 0).t(TAG, 0).d("new newInstance");
+        Logger.t(TAG, 0).d("new newInstance");
         BFragment fragment = new BFragment();
         Bundle args = new Bundle();
         args.putString(TAG_CONTENT, content);
@@ -107,9 +112,15 @@ public class BFragment extends Fragment {
     public void setContent(String content) {
         txtDes.setText(content);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
         Logger.t(TAG, 0).d("onDetach");
+    }
+
+    @OnClick(R.id.btn_hide)
+    public void onClick() {
+        ((ContainerActivity)getActivity()).hideFragment();
     }
 }
