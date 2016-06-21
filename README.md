@@ -5,3 +5,9 @@
 # UI 小技巧
 
 * 着色器tint(2016.06.4)
+
+## 2016.06.21
+
+&emsp;完成项目的RecycleView布局以及点击事件,增加Fragment切换和通信的一些简单示例.
+
+<div align="center"> ![](/image\fragment.gif) </div>

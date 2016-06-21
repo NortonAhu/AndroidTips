@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bluecup.hongyu.androidtips.R;
+import com.bluecup.hongyu.androidtips.ui.ContainerActivity;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +27,10 @@ import butterknife.OnClick;
  * create an instance of this fragment.
  */
 public class AFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private static final String TAG = "AFragment";
+
     private static final String ARG_PARAM1 = "content";
     private static final String ARG_PARAM2 = "title";
     @BindView(R.id.content)
@@ -34,7 +38,6 @@ public class AFragment extends Fragment {
     @BindView(R.id.btn_next)
     Button btnNext;
 
-    // TODO: Rename and change types of parameters
     private String mContent;
     private String mTitle;
 
@@ -69,12 +72,14 @@ public class AFragment extends Fragment {
             mContent = getArguments().getString(ARG_PARAM1);
             mTitle = getArguments().getString(ARG_PARAM2);
         }
+        Logger.t(TAG).d("onCreate");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContentTxt.setText(mContent);
+        Logger.t(TAG).d("onActivityCreated");
     }
 
     @Override
@@ -82,6 +87,7 @@ public class AFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_a, container, false);
         ButterKnife.bind(this, view);
+        Logger.t(TAG).d("onCreateView");
         return view;
     }
 
@@ -95,20 +101,23 @@ public class AFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        Logger.t(TAG).d("onAttach");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        Logger.t(TAG).d("onDetach");
     }
 
     @OnClick(R.id.btn_next)
     public void onClick() {
-//        ((ContainerActivity)getActivity()).replaceFragemnt();
-        if (mListener != null) {
-            mListener.onFragmentInteraction("这是通过回调的方式完成的");
-        }
+        ((ContainerActivity)getActivity()).replaceFragemnt();
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction("这是通过回调的方式完成的");
+//        }
+//        ((ContainerActivity)getActivity()).hideFragment();
     }
 
     /**
@@ -124,5 +133,29 @@ public class AFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String content);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.t(TAG).d("onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Logger.t(TAG).d("onPause");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Logger.t(TAG).d("onDestroy");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Logger.t(TAG).d("onDestroyView");
     }
 }

@@ -2,12 +2,15 @@ package com.bluecup.hongyu.androidtips;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bluecup.hongyu.androidtips.adapter.NormalAdapter;
+import com.bluecup.hongyu.androidtips.adapter.OnRecycleViewItemClickListener;
 import com.bluecup.hongyu.androidtips.ui.ContainerActivity;
 import com.bluecup.hongyu.androidtips.ui.activity.BaseActivity;
 
@@ -15,6 +18,7 @@ public class MainActivity extends BaseActivity {
 
 
     RecyclerView mTipsRecycle;
+    private NormalAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,28 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         mTipsRecycle = (RecyclerView) findViewById(R.id.recycle_items);
         mTipsRecycle.setLayoutManager(new GridLayoutManager(this, 2));
-        mTipsRecycle.setAdapter(new NormalAdapter(this));
+        mAdapter = new NormalAdapter(this);
+        mTipsRecycle.setAdapter(mAdapter);
+        mAdapter.setOnRecycleViewClickListener(new OnRecycleViewItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+                Snackbar.make(view, mAdapter.getData(position).toString(), Snackbar.LENGTH_SHORT).show();
+                switchChildView(position);
+            }
+        });
+    }
+
+    public void switchChildView(int position) {
+        Intent intent = new Intent();
+        switch (position) {
+            case 0:
+                intent.setClass(this, ContainerActivity.class);
+                break;
+            default:
+                return;
+
+        }
+        startActivity(intent);
     }
 
 
