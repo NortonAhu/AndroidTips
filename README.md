@@ -13,3 +13,7 @@
 ![](image/fragment.gif)
 
 &emsp; 2. 实现[BaseFragment和BaseActivity的封装](http://blog.csdn.net/tyk0910/article/details/51355026)
+
+## 2016.07.05
+
+&emsp;1. 完成一个vector的学习demo还在完善中参考[链接](http://www.jianshu.com/p/e3614e7abc03)
