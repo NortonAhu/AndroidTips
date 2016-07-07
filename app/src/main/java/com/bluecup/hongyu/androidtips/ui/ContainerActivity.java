@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.bluecup.hongyu.androidtips.AppContext;
+import com.bluecup.hongyu.androidtips.ATipsApp;
 import com.bluecup.hongyu.androidtips.R;
-import com.bluecup.hongyu.androidtips.ui.activity.BaseActivity;
 import com.bluecup.hongyu.androidtips.ui.fragment.AFragment;
 import com.bluecup.hongyu.androidtips.ui.fragment.BFragment;
+import com.bluecup.hongyu.common.ui.activity.BaseActivity;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -28,6 +29,9 @@ import butterknife.ButterKnife;
  */
 public class ContainerActivity extends BaseActivity implements AFragment.OnFragmentInteractionListener {
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
     @BindView(R.id.fragment_container)
     FrameLayout fragmentContainer;
     private FragmentManager mFragmentManager;
@@ -40,7 +44,7 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
         ButterKnife.bind(this);
-        initTitle(AppContext.getResStr(R.string.fragment_activity_title), true);
+        initTitle(ATipsApp.getResStr(R.string.fragment_activity_title), true);
 
         initFragmentManager();
         addFragment();
@@ -56,14 +60,12 @@ public class ContainerActivity extends BaseActivity implements AFragment.OnFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        } else if (id == R.id.action_go_next) {
+        if (id == R.id.action_go_next) {
             replaceFragemnt();
             return true;
         } else if (id == R.id.action_switch_fragment) {
             initComponent();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

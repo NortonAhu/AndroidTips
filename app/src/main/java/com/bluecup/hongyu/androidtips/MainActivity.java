@@ -12,7 +12,8 @@ import android.view.View;
 import com.bluecup.hongyu.androidtips.adapter.NormalAdapter;
 import com.bluecup.hongyu.androidtips.adapter.OnRecycleViewItemClickListener;
 import com.bluecup.hongyu.androidtips.ui.ContainerActivity;
-import com.bluecup.hongyu.androidtips.ui.activity.BaseActivity;
+import com.bluecup.hongyu.androidtips.ui.EmptyActivity;
+import com.bluecup.hongyu.common.ui.activity.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -51,6 +52,9 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 intent.setClass(this, ContainerActivity.class);
+                break;
+            case 1:
+                intent.setClass(this, EmptyActivity.class);
                 break;
             default:
                 return;

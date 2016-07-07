@@ -2,6 +2,7 @@
     <string name="app_name">AndroidTips</string>
     <string-array name="main_item">
         <item>Fragment</item>
+        <item>vector</item>
         <item>UI</item>
         <item>DATABASE</item>
         <item>HTTP</item>
