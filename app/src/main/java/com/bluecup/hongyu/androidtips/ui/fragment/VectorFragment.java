@@ -2,9 +2,9 @@ package com.bluecup.hongyu.androidtips.ui.fragment;
 
 import android.content.Context;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +29,10 @@ public class VectorFragment extends Fragment {
     ImageView imgStaticIcon;
     @BindView(R.id.img_anim_vector)
     ImageView imgAnimVector;
+    @BindView(R.id.img_anim_wrench)
+    ImageView imgAnimWrench;
+    @BindView(R.id.img_anim_mirror)
+    ImageView imgAnimMirror;
 
     public static VectorFragment newInstance() {
 
@@ -63,18 +67,30 @@ public class VectorFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.img_static_icon, R.id.img_anim_vector})
+    @OnClick({R.id.img_static_icon, R.id.img_anim_vector, R.id.img_anim_wrench, R.id.img_anim_mirror})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_static_icon:
                 break;
             case R.id.img_anim_vector:
-                AnimatedVectorDrawableCompat animatedVectorDrawableCompat = AnimatedVectorDrawableCompat.create(
-                        getActivity(), R.drawable.anim_arrow
-                );
-                ((ImageView)view).setImageDrawable(animatedVectorDrawableCompat);
-                ((Animatable) ((ImageView)view).getDrawable()).start();
+                anim(view);
+//                AnimatedVectorDrawableCompat animatedVectorDrawableCompat = AnimatedVectorDrawableCompat.create(
+//                        getActivity(), R.drawable.anim_arrow
+//                );
+//                ((ImageView) view).setImageDrawable(animatedVectorDrawableCompat);
+//                ((Animatable) ((ImageView) view).getDrawable()).start();
                 break;
+            default:
+                anim(view);
+                break;
+        }
+    }
+
+    private void anim(View view) {
+        ImageView imageView = (ImageView) view;
+        Drawable drawable = imageView.getDrawable();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
         }
     }
 }
